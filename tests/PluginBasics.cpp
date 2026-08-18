@@ -140,6 +140,11 @@ TEST_CASE ("Pitch bend raises/lowers pitch by the configured up/down range", "[d
         plugin->prepareToPlay (48000.0, 2048);
         *plugin->pitchBendUpParam = pitchBendUpSemitones;
         *plugin->pitchBendDownParam = pitchBendDownSemitones;
+        // Chorus/delay default to 50% wet, which mixes in their own comb/
+        // modulation artifacts and swamps a simple zero-crossing count as a
+        // pitch proxy - isolate the raw oscillator+filter signal instead.
+        *plugin->chorusAmountParam = 0.0f;
+        *plugin->delayAmountParam = 0.0f;
 
         juce::AudioBuffer<float> buffer (2, 2048);
         juce::MidiBuffer midi;
