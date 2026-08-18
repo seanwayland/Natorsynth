@@ -1,6 +1,10 @@
 #include "adsr.h"
 #include <math.h>
 
+#ifndef M_E
+ #define M_E 2.71828182845904523536
+#endif
+
 using namespace daisysp;
 
 
