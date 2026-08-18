@@ -176,5 +176,13 @@ include(Tests)
 # A separate target for Benchmarks (keeps the Tests target fast)
 include(Benchmarks)
 
+# Upstream cmake-includes' Benchmarks.cmake (as of the pinned commit) globs
+# only Catch2Main.cpp, not benchmarks/*.cpp, so our actual TEST_CASE/
+# BENCHMARK_ADVANCED code in Benchmarks.cpp never gets compiled in - the
+# resulting binary has zero registered tests, which CTest's discovery then
+# reports as a permanently-failing "Benchmarks_NOT_BUILT" placeholder test.
+# Add the missing file directly until upstream fixes the glob.
+target_sources(Benchmarks PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/benchmarks/Benchmarks.cpp")
+
 # Output some config for CI (like our PRODUCT_NAME)
 include(GitHubENV)
